@@ -1,0 +1,754 @@
+<!--
+	This is a sample layout, you can follow this, however feel free to create your own unique layout, you do not have to follow this layout. 
+	(I encourage you to create your own webpage from scratch)
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Online Store</h1>
+        <div id="dateArea">Date/Time</div>
+        <div id="cartArea">
+            <span id="cartIcon" class="icon" onclick="toggleCart()">Your Cart <span id="cartCounter">0</span></span>
+            <span id="currencyArea">
+                Currency: 
+                <img id="currencyFlag" class="currencyFlag" src="img/cur/cad.png" alt="Currency Flag"/>
+                <select id="currencySelector" onchange="updateCurrencyFlag()">
+                    <option selected value="CAD">CAD</option>
+                    <option value="USD">USD</option>
+                    <option value="GBP">GBP</option>
+                </select>
+            </span>
+        </div>
+    </header>
+
+    <section class="main-content">
+        <fieldset>
+            <legend>Store Items</legend>
+            <select id="displayFilter">
+                <option>All</option>
+            </select>
+            <div id="inventoryOutput" class="product-grid"></div>
+        </fieldset>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Online Store. All rights reserved.</p>
+    </footer>
+
+    <script>
+
+// Creating Game constructor function
+function Game(id, name, priceUSD, quantity, maxQuantity, category, image, rating, reviews) {
+    this.id = id;
+    this.name = name;
+    this.priceUSD = priceUSD;
+    this.quantity = quantity;
+    this.maxQuantity = maxQuantity;
+    this.category = category;
+    this.image = image;
+    this.rating = rating;
+    this.reviews = reviews;
+}
+
+// Creating instances of the Game constructor
+const products = [
+
+//game1
+    new Game(1, "The Legend of Zelda: Breath of the Wild", 49.99, 10, 20, "Adventure", "img/game/zelda.jpg", 4.7,
+        [
+            { user: "Gamer123", comment: "An incredible adventure, highly recommended!", rating: 5 },
+            { user: "ExplorationFan", comment: "Beautiful open world with endless possibilities.", rating: 4.5 },
+        ]
+    ),
+
+//game2
+    new Game(2, "FIFA 22", 59.99, 8, 15, "Sports", "img/game/fifa22.jpg", 4.2,
+        [
+            { user: "SoccerMaster", comment: "Realistic gameplay and updated teams.", rating: 4 },
+            { user: "GoalScorer", comment: "Enjoying the new features in career mode.", rating: 4.5 },
+        ]
+    ),
+
+//game3
+    new Game(3, "Cyberpunk 2077", 39.99, 5, 10, "RPG", "img/game/cyberpunk2077.jpg", 3.9,
+        [
+            { user: "TechEnthusiast", comment: "Futuristic world, but needs some bug fixes.", rating: 3.5 },
+            { user: "RoleplayMaster", comment: "Immersive story and character customization.", rating: 4.5 },
+        ]
+    ),
+
+//game4
+    new Game(4, "Assassin's Creed Valhalla", 54.99, 12, 25, "Action", "img/game/acvalhalla.jpg", 4.5,
+        [
+            { user: "HistoryBuff", comment: "Love the historical setting and engaging storyline.", rating: 5 },
+            { user: "GamerViking", comment: "Epic battles and stunning landscapes.", rating: 4 },
+        ]
+    ),
+
+//game5
+    new Game(5, "Minecraft", 29.99, 15, 30, "Adventure", "img/game/minecraft.png", 4.8,
+        [
+            { user: "BlockBuilder", comment: "Endless creativity and fun!", rating: 5 },
+            { user: "Explorer", comment: "A sandbox world with infinite possibilities.", rating: 4.5 },
+        ]
+    ),
+
+//game6
+    new Game(6, "Red Dead Redemption 2", 44.99, 7, 18, "Action", "img/game/rdr2.jpg", 4.9,
+        [
+            { user: "WildWestGamer", comment: "Masterpiece with a gripping story.", rating: 5 },
+            { user: "CowboyExplorer", comment: "Stunning visuals and realistic world.", rating: 5 },
+        ]
+    ),
+
+//game7
+    new Game(8, "Overwatch", 39.99, 9, 20, "FPS", "img/game/overwatch.png", 4.1,
+        [
+            { user: "FPSPro", comment: "Fast-paced and addictive gameplay.", rating: 4 },
+            { user: "TeamPlayer", comment: "Love the team strategy and unique heroes.", rating: 4.5 },
+        ]
+    ),
+
+//game8
+    new Game(9, "Super Mario Odyssey", 49.99, 18, 30,"Adventure", "img/game/marioodyssey.jpg", 4.7,
+        [
+            { user: "MarioFan", comment: "Classic Mario adventure with a modern twist.", rating: 5 },
+            { user: "PlatformerPro", comment: "Charming and creative level design.", rating: 4.5 },
+        ]
+    ),
+
+//game9
+    new Game(10, "The Witcher 3: Wild Hunt", 29.99, 6, 15, "RPG", "img/game/witcher3.jpg", 4.6,
+        [
+            { user: "RPGMaster", comment: "A deep and engaging RPG experience.", rating: 5 },
+            { user: "FantasyGamer", comment: "Excellent storytelling and character development.", rating: 4 },
+        ]
+    ),
+
+//game10
+    new Game(13, "Star Wars Jedi: Fallen Order", 34.99, 11, 25, "Action", "img/game/fallenorder.jpg", 4.4,
+        [
+            { user: "StarWarsFan", comment: "Captures the essence of Star Wars beautifully.", rating: 4.5 },
+            { user: "LightsaberMaster", comment: "Exciting lightsaber combat and Force abilities.", rating: 4 },
+        ]
+    ),
+
+    
+//game11
+    new Game(15, "Doom Eternal", 44.99, 8, 20, "FPS", "img/game/doometernal.png", 4.3,
+        [
+            { user: "DoomSlayer", comment: "Fast-paced and intense, a must-play for FPS fans.", rating: 4.5 },
+            { user: "ShooterPro", comment: "Impressive graphics and satisfying demon-slaying.", rating: 4 },
+        ]
+    ),
+
+//game12
+    new Game(16, "Among Us", 4.99, 20, 40, "Party", "img/game/amongus.jpg", 4.0,
+        [
+            { user: "ImposterMaster", comment: "Hilarious and strategic party game.", rating: 4 },
+            { user: "CrewmateFan", comment: "Enjoyable with friends, endless possibilities.", rating: 4 },
+        ]
+    ),
+
+//game13
+    new Game(17, "The Elder Scrolls V: Skyrim", 39.99, 15, 30, "RPG", "img/game/skyrim.png", 4.7,
+        [
+            { user: "Dragonborn", comment: "A vast and immersive open world to explore.", rating: 5 },
+            { user: "RPGExplorer", comment: "Countless quests and epic adventures.", rating: 4.5 },
+        ]
+    ),
+
+//game14
+    new Game(18, "Mortal Kombat 11", 49.99, 13, 25, "Fighting", "img/game/mortalkombat11.png", 4.6,
+        [
+            { user: "FightingGamePro", comment: "Brutal combat and diverse character roster.", rating: 4.5 },
+            { user: "FinishHim", comment: "Nostalgic and visually stunning fighting game.", rating: 4 },
+        ]
+    ),
+
+//game15
+    new Game(20, "Spider-Man: Miles Morales", 59.99, 9, 18, "Action", "img/game/spidermanmiles.jpeg", 4.8,
+        [
+            { user: "WebSlinger", comment: "Spectacular graphics and web-swinging action.", rating: 5 },
+            { user: "MarvelFan", comment: "A worthy addition to the Spider-Man series.", rating: 4.5 },
+        ]
+    ),
+
+//Extra games
+//game16
+    new Game(21,"Horizon Zero Dawn",39.99, 10, 20, "Action", "img/game/horizonzerodawn.jpg",
+        4.5,
+        [
+            { user: "MachineHunter", comment: "Unique world with robotic creatures, fantastic!", rating: 5 },
+            { user: "GamerSurvivor", comment: "Engaging story and breathtaking visuals.", rating: 4 },
+        ]
+    ),
+
+//game17
+    new Game(22, "Ghost of Tsushima", 49.99, 8, 15, "Action", "img/game/ghostoftsushima.jpg", 4.9,
+        [
+            { user: "SamuraiWarrior", comment: "Incredible samurai experience with stunning landscapes.", rating: 5 },
+            { user: "GamerRonin", comment: "Combat is fluid and visually impressive.", rating: 5 },
+        ]
+    ),
+
+//game18
+    new Game(23, "Resident Evil Village", 54.99, 7, 15, "Horror", "img/game/residentevilvillage.png", 4.8,
+        [
+            { user: "HorrorFan89", comment: "Scary and intense, a must-play for horror enthusiasts.", rating: 5 },
+            { user: "Survivor22", comment: "Loved the storyline and suspense.", rating: 4.5 },
+        ]
+    ),
+
+];
+
+
+//conversion rates
+const conversionRates = {
+    usd: 1,   // 1 USD = 1 USD
+    cad: 1.27, // 1 USD = 1.27 CAD
+    gbp: 0.73, // 1 USD = 0.73 GBP
+};
+
+//function for date and time
+function updateDateTime() {
+    var dateArea = document.getElementById("dateArea");
+    var currentDateTime = new Date();
+
+    // time zone to local time zone
+    var timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    var options = {
+        weekday: "short", // Abbreviated day name (e.g., Thu)
+        month: "short",   // Abbreviated month name (e.g., Dec)
+        day: "numeric",    // Day of the month (e.g., 7)
+        year: "numeric",   // Full year (e.g., 2023)
+        hour: "2-digit",   // Two-digit hour (e.g., 16)
+        minute: "2-digit", // Two-digit minute (e.g., 25)
+        second: "2-digit", // Two-digit second (e.g., 26)
+        timeZoneName: "short" // Short time zone name (e.g., EDT)
+    };
+
+    // Use Intl.DateTimeFormat with timeZone option
+    var formatter = new Intl.DateTimeFormat("en-US", options);
+    formatter.timeZone = timeZone;
+
+    var formattedDateTime = formatter.format(currentDateTime);
+    dateArea.textContent = formattedDateTime + " (Eastern Daylight Time)";
+}
+
+// Update date and time every second
+setInterval(updateDateTime, 1000);
+
+// Initial update
+updateDateTime();
+
+// Function to update the currency flag image
+function updateCurrencyFlag() {
+    var currencySelector = document.getElementById("currencySelector");
+    var currencyFlag = document.getElementById("currencyFlag");
+
+    // Get the selected currency value
+    var selectedCurrency = currencySelector.value.toLowerCase();
+
+    // Update the src attribute of the currency flag image
+    currencyFlag.src = "img/cur/" + selectedCurrency + ".png";
+
+    // Update the prices of products based on the selected currency
+    updateProductPrices(selectedCurrency);
+    displayProducts();
+}
+
+// Function to update the prices of products based on the selected currency
+function updateProductPrices(currency) {
+    // Conversion rates (you can replace these with real conversion rates)
+    const conversionRates = {
+        usd: 1,   // 1 USD = 1 USD
+        cad: 1.27, // 1 USD = 1.27 CAD
+        gbp: 0.73, // 1 USD = 0.73 GBP
+    };
+
+    // Loop through each product and update its displayed price
+    products.forEach(product => {
+        // Calculate the new price in the selected currency
+        const newPrice = product.priceUSD * conversionRates[currency];
+
+        // Update the displayed price
+        const priceElement = document.getElementById(`price-${product.id}`);
+        if (priceElement) {
+            priceElement.textContent = newPrice.toFixed(2);
+        }
+    });
+
+}// Function to display products in card format
+function displayProducts() {
+    const displayFilter = document.getElementById("displayFilter");
+    const inventoryOutput = document.getElementById("inventoryOutput");
+
+    // Clear existing content
+    inventoryOutput.innerHTML = '';
+
+    // Filter products based on the selected category
+    const selectedCategory = displayFilter.value;
+    const filteredProducts = selectedCategory === "All" ? products : products.filter(product => product.category === selectedCategory);
+    const selectedCurrency = document.getElementById("currencySelector").value.toLowerCase();
+
+    // Create product cards
+    filteredProducts.forEach(product => {
+        const card = document.createElement("div");
+        const priceInSelectedCurrency = product.priceUSD * conversionRates[selectedCurrency];
+
+        card.className = "product-card";
+
+        const image = document.createElement("img");
+        image.src = product.image;
+        image.alt = product.name;
+
+        const details = document.createElement("div");
+        details.className = "product-details";
+
+        const name = document.createElement("h3");
+        name.textContent = product.name;
+
+        const price = document.createElement("p");
+        price.className = "price";
+        price.textContent = priceInSelectedCurrency ? `$${priceInSelectedCurrency.toFixed(2)} ${selectedCurrency.toUpperCase()}  ` : 'N/A';
+
+        const showDetailsButton = document.createElement("button");
+        showDetailsButton.textContent = "Show Details";
+        showDetailsButton.addEventListener("click", () => showDetailsPopup(product));
+
+        details.appendChild(name);
+        details.appendChild(price);
+        details.appendChild(showDetailsButton);
+
+        card.appendChild(image);
+        card.appendChild(details);
+
+        inventoryOutput.appendChild(card);
+    });
+}
+
+// Initial display of products
+displayProducts();
+
+// Function to show details in a popup
+function showDetailsPopup(product) {
+    // Get the selected currency value
+    const selectedCurrency = document.getElementById("currencySelector").value.toLowerCase();
+
+    // Calculate the price in the selected currency
+    const priceInSelectedCurrency = product.priceUSD * conversionRates[selectedCurrency];
+
+    // Map to generate HTML in table format
+    const reviewsHTML = `
+        <table class="reviews-table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Comment</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${product.reviews.map(review => `
+                    <tr>
+                        <td>${review.user}</td>
+                        <td>${review.comment}</td>
+                        <td>${review.rating}</td>
+                    </tr>
+                `).join("")}
+            </tbody>
+        </table>
+    `;
+
+    // Dynamic content for the details section
+    const detailsContent = `
+    <div class="product-details">
+        <div>
+        <span><img src="${product.image}" alt="${product.name}" width="100" height="100" /></span>
+        <span>  <div class="details-text">
+            <p>ID: ${product.id}</p>
+            <p>Price: ${priceInSelectedCurrency.toFixed(2)} ${selectedCurrency.toUpperCase()}</p>
+            <p>Quantity: ${product.quantity}</p>
+            <p>Max Quantity: ${product.maxQuantity}</p>
+            <p>Category: ${product.category}</p>
+        </div></span>
+    </div>
+`;
+
+// Dynamic content for the popup body
+const popupContent = `
+    <div class="popup-header">
+        <h2>${product.name}</h2>
+        <button class="close-button" onclick="closePopup()">Close</button>
+    </div>
+    <div class="popup-body">
+        <div class="popup-details">${detailsContent}</div>
+
+        <!-- Reviews at the bottom -->
+        <div class="reviews-section">
+            <h3>Reviews</h3>
+            ${reviewsHTML}
+        </div>
+
+        <!-- Quantity input -->
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" value="1" min="1" max="${product.maxQuantity}">
+
+        <!-- Buttons -->
+        <div class="popup-buttons">
+            <button onclick="addToCart(${product.id}, document.getElementById('quantity').value)">Add to Cart</button>
+            <button onclick="writeReview(${product.id})">Write a Review</button>
+        </div>
+    </div>
+    <div class="popup-footer"></div>
+`;
+
+    // Create a popup element
+    const popup = document.createElement("div");
+    popup.classList.add("popup");
+    popup.innerHTML = popupContent;
+
+    // Append the popup to the body
+    document.body.appendChild(popup);
+
+    // Add a click event listener to close the popup when clicked outside
+    popup.addEventListener('click', (event) => {
+        if (event.target === popup) {
+            closePopup();
+        }
+    });
+}
+
+
+// Class for the review popup
+class ReviewPopup {
+    constructor(message) {
+        this.message = message;
+        this.createPopup();
+        this.closePopup = this.closePopup.bind(this); 
+    }
+
+    createPopup() {
+        this.popup = document.createElement("div");
+        this.popup.classList.add("popup-review");
+        this.popup.innerHTML = `
+            <div class="popup-review-content">
+                <p>${this.message}</p>
+                <button onclick="reviewPopup.closePopup()">Close</button>
+            </div>
+        `;
+        document.body.appendChild(this.popup);
+    }
+
+    closePopup() {
+        this.popup.remove();
+    }
+}
+
+let reviewPopup;  // Variable to store the ReviewPopup instance
+
+// Function to write a review
+function writeReview(productId) {
+    const reviewContent = `
+        <div>
+            <label for="review">Write your review:</label>
+            <textarea id="review" rows="4" cols="50"></textarea>
+        </div>
+        <div>
+            <label for="rating">Give a rating (1-5):</label>
+            <input type="number" id="rating" min="1" max="5">
+        </div>
+        <div>
+            <label for="username">Enter your username:</label>
+            <input type="text" id="username">
+        </div>
+        <button onclick="submitReview(${productId})">Submit Review</button>
+    `;
+
+    // Display the review form in a popup
+    reviewPopup = new ReviewPopup(reviewContent);
+}
+
+// Function to submit a review
+function submitReview(productId) {
+    const reviewTextArea = document.getElementById("review");
+    const ratingInput = document.getElementById("rating");
+    const usernameInput = document.getElementById("username");
+
+    const reviewPrompt = reviewTextArea.value.trim();
+    const rating = parseInt(ratingInput.value);
+
+    if (reviewPrompt !== "" && !isNaN(rating) && rating >= 1 && rating <= 5) {
+        const username = usernameInput.value.trim();
+
+        // Create a review object
+        const review = {
+            user: username,
+            comment: reviewPrompt,
+            rating: rating
+        };
+
+        // Add the review to the product's reviews array
+        const productIndex = products.findIndex(p => p.id === productId);
+        if (productIndex !== -1) {
+            products[productIndex].reviews.push(review);
+        }
+        closePopup();
+        reviewPopup.closePopup();  // Close the review popup
+        reviewPopup = null;  // Reset the reviewPopup variable
+    } else {
+            alert("Invalid input. Please check your review, rating, and username.");
+    }
+}
+
+
+// Function to close the popup
+function closePopup() {
+    const popup = document.querySelector(".popup");
+    if (popup) {
+        document.body.removeChild(popup);
+    }
+}
+
+// Function to simulate adding to cart
+
+let cartItems = [];
+
+//function to update counter
+function updateCartCounter() {
+    const cartCounter = document.getElementById("cartCounter");
+    cartCounter.textContent = cartItems.length;
+}
+
+//function to add items to cart
+function addToCart(productId, quantity) {
+    const productInCartIndex = cartItems.findIndex(item => item.productId === productId);
+
+    if (productInCartIndex !== -1) {
+        cartItems[productInCartIndex].quantity += quantity;
+    } 
+
+    else {
+        cartItems.push({ productId, quantity });
+    }
+
+    updateCartCounter();
+    const confirmClose = confirm("Are you sure you want to add this product to the cart?");
+    
+    if (confirmClose) {
+        const popup = document.querySelector(".popup");
+        if (popup) {
+            closePopup();
+        }
+    }
+   
+}
+
+//function to popup cart
+function openCartPopup() {
+    const cartPopupContent = `
+        <div class="popup-header">
+            <h2>Shopping Cart</h2>
+            <button class="close-button" onclick="closePopup()">Close</button>
+        </div>
+        <div class="popup-body">
+            ${cartItems.length === 0 ? '<p>Your cart is empty.</p>' : generateCartItemsHTML()}
+        </div>
+    `;
+
+    const cartPopup = document.createElement("div");
+    cartPopup.classList.add("popup");
+    cartPopup.innerHTML = cartPopupContent;
+
+    document.body.appendChild(cartPopup);
+
+    // Add a click event listener to close the cart popup when clicked outside
+    cartPopup.addEventListener("click", (event) => {
+        if (event.target === cartPopup) {
+            closePopup();
+        }
+    });
+}
+
+//function to generate cart items
+function generateCartItemsHTML() {
+    const selectedCurrency = document.getElementById("currencySelector").value.toLowerCase();
+
+    const cartItemsHTML = cartItems.map(cartItem => {
+        const product = products.find(p => p.id === cartItem.productId);
+        const priceInSelectedCurrency = product.priceUSD * conversionRates[selectedCurrency];
+        return `
+            <tr>
+                <td><img src="${product.image}" alt="${product.name}" width="50" height="50" /></td>
+                <td>${product.name}</td>
+                <td>${priceInSelectedCurrency.toFixed(2)}</td>
+                <td>${cartItem.quantity}</td>
+                <td><button class="remove-button" onclick="removeCartItem(${cartItem.productId})">Remove</button></td>
+            </tr>
+        `;
+    });
+
+    return `
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${cartItemsHTML.join('')}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2"></td>
+                    <td><strong>Subtotal:</strong></td>
+                    <td>${calculateSubtotal(selectedCurrency).toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td><strong>Tax (8%):</strong></td>
+                    <td>${calculateTax(selectedCurrency).toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td><strong>Shipping Cost:</strong></td>
+                    <td>${calculateShippingCost(selectedCurrency).toFixed(2)}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td><strong>Total:</strong></td>
+                    <td>${calculateTotal(selectedCurrency).toFixed(2)}</td>
+                </tr>
+            </tfoot>
+        </table>
+    `;
+}
+
+//function for removing items
+function removeCartItem(productId) {
+
+    const index = cartItems.findIndex(item => item.productId === productId);
+
+    // Remove the item from the cartItems array
+    if (index !== -1) {
+        cartItems.splice(index, 1);
+
+        // Update the cart counter
+        updateCartCounter();
+
+        // Refresh the cart popup content after removing the item
+        openCartPopup();
+
+        // Close the cart popup
+        closePopup();
+    }
+}
+
+//function for updating counter
+function updateCartCounter() {
+    // Update cartCounter
+    const cartCounter = document.getElementById("cartCounter");
+    if (cartCounter) {
+        cartCounter.textContent = cartItems.length.toString();
+    }
+}
+// Add a click event listener to the cart icon
+document.getElementById("cartIcon").addEventListener("click", openCartPopup);
+
+
+// Function to populate the displayFilter dropdown with categories
+function populateFilterDropdown() {
+    const displayFilter = document.getElementById("displayFilter");
+
+    // Clear existing options
+    displayFilter.innerHTML = '';
+
+    // Get unique categories
+    const categories = getUniqueCategories();
+
+    // Populate options
+    categories.forEach(category => {
+        const option = document.createElement("option");
+        option.value = category;
+        option.textContent = category;
+        displayFilter.appendChild(option);
+    });
+}
+
+// Function to get unique categories from products
+function getUniqueCategories() {
+    const uniqueCategories = new Set(products.map(product => product.category));
+    return ["All", ...Array.from(uniqueCategories)]; 
+}
+
+//function to calculate sub-total
+function calculateSubtotal(selectedCurrency) {
+    const subtotal = cartItems.reduce((total, cartItem) => {
+        const product = products.find(p => p.id === cartItem.productId);
+        const priceInSelectedCurrency = product.priceUSD * conversionRates[selectedCurrency];
+        return total + priceInSelectedCurrency * cartItem.quantity;
+    }, 0);
+
+    return subtotal;
+}
+
+//function to calculate tax
+function calculateTax(selectedCurrency) {
+    const subtotal = calculateSubtotal(selectedCurrency);
+    const taxRate = 0.08; // 8%
+    const taxInSelectedCurrency = taxRate * conversionRates[selectedCurrency];
+    const tax = subtotal * taxInSelectedCurrency;
+    
+    return tax;
+}
+
+//function for claculating shipping cost
+function calculateShippingCost(selectedCurrency) {
+
+    const shippingCost = 5.00 * conversionRates[selectedCurrency];
+    return shippingCost;
+}
+
+function calculateTotal(selectedCurrency) {
+    const subtotal = calculateSubtotal(selectedCurrency);
+    const tax = calculateTax(selectedCurrency);
+    const shippingCost = calculateShippingCost(selectedCurrency);
+
+    const total = subtotal + tax + shippingCost;
+    return total;
+}
+
+
+// Function to handle the change event of the displayFilter dropdown
+function handleFilterChange() {
+    displayProducts();
+}
+
+// Attach the handleFilterChange function to the change event of the displayFilter dropdown
+document.getElementById("displayFilter").addEventListener("change", handleFilterChange);
+
+// Attach the updateCurrencyFlag function to the change event of the currency selector
+document.getElementById("currencySelector").addEventListener("change", updateCurrencyFlag);
+
+// Initial update
+populateFilterDropdown();
+displayProducts();
+updateCurrencyFlag();
+
+</script>
+</body>
+</html>
+

@@ -1,0 +1,333 @@
+/* style.css */
+
+.currencyFlag {
+    max-height: 20px; /* Set the maximum height */
+    max-width: 20px;  /* Set the maximum width */
+    vertical-align: middle; /* Align the image vertically in the middle */
+    margin-bottom: -4px; /* Adjust the position as needed */
+}
+/* style.css */
+
+
+/* Add style to the select element */
+#displayFilter {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+/* Style the options within the select dropdown */
+#displayFilter option {
+    background-color: #fff;
+    color: #333;
+}
+
+
+
+table {
+    width: 100%; /* Make the table fill the container width */
+    border-collapse: collapse; /* Collapse borders to avoid double borders between cells */
+}
+
+th, td {
+    border: 2px double #ddd; /* Add a border to table cells */
+    padding: 8px; /* Add padding to cell content */
+    text-align: left; /* Align text to the left in cells */
+}
+
+img {
+    max-width: 200px; /* Limit the width of images to 50px */
+    max-height: 350px; /* Limit the height of images to 50px */
+}
+
+
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#cartArea {
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.currencyFlag {
+    width: 20px;
+    height: 15px;
+    margin-right: 5px;
+}
+
+.main-content {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+fieldset {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+}
+
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.product-card {
+    width: 30%; /* Adjust the width as needed for 3 products in a row */
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.product-card img {
+    width: 100%;
+    height: 250px; /* Adjust the height as needed for larger images */
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+}
+
+
+
+.product-details h3 {
+    margin: 0;
+    font-size: 1.1em;
+    color: #333;
+}
+
+.product-details p {
+    margin: 5px 0;
+    color: #777;
+}
+
+.product-details .price {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.product-details button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.product-details button:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+}
+
+
+
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+
+
+/* Style for the popup body */
+.popup-body {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Style for the product image in the popup */
+.popup-body img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    flex: 0 0 40%; /* Adjust the width as needed */
+}
+
+/* Style for the product details in the popup */
+.popup-body p {
+    margin: 0;
+    line-height: 1.5;
+    color: #333;
+    flex: 0 0 60%; /* Adjust the width as needed */
+}
+
+/* Style for the reviews section */
+.reviews-section {
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Style for the reviews table */
+.reviews-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+/* Style for the reviews table header */
+.reviews-table th {
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: left;
+}
+
+/* Style for the reviews table rows */
+.reviews-table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Style for the popup buttons */
+.popup-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Style for the quantity input */
+#quantity {
+    width: 60px;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+/* Style for the add to cart button */
+.popup-buttons button {
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Hover effect for the add to cart button */
+.popup-buttons button:hover {
+    background-color: #0056b3;
+}
+
+/* Style for the write review button */
+.popup-buttons button:nth-child(2) {
+    background-color: #28a745;
+}
+
+/* Hover effect for the write review button */
+.popup-buttons button:nth-child(2):hover {
+    background-color: #218838;
+}
+
+.popup-details {
+    text-align: center; /* Center text in details */
+}
+
+.popup-details img {
+    width: 200px; /* Set the desired width for the image */
+    height: 200px; /* Maintain aspect ratio */
+}
+
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+
+.popup-review {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    z-index: 1000;
+    width: 450px;
+}
+
+.popup-review-content {
+    text-align: center;
+}
+
+.popup-review-content button {
+    padding: 8px 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.popup-review-content button:hover {
+    background-color: #555;
+}
+
+.remove-button {
+    background-color: #ff4d4d;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.remove-button:hover {
+    background-color: #ff6666;
+}
